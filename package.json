@@ -1,0 +1,12 @@
+{
+    "name": "senior119-root",
+    "private": true,
+    "scripts": {
+        "postinstall": "cd senior119 && npm install",
+        "build": "cd senior119 && npm run build",
+        "start": "cd senior119 && npm run preview -- --host --port $PORT"
+    },
+    "engines": {
+        "node": ">=18.0.0"
+    }
+}
