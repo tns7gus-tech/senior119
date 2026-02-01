@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Senior 119 - Legal Diagnosis</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700;800;900&amp;family=Noto+Sans:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#067bf9",
+                        "background-light": "#f5f7f8",
+                        "background-dark": "#0f1923",
+                        "safety-green": "#22c55e", 
+                        "emergency-red": "#ef4444",
+                    },
+                    fontFamily: {
+                        "display": ["Lexend", "sans-serif"],
+                        "body": ["Noto Sans", "sans-serif"],
+                    },
+                    borderRadius: {"DEFAULT": "0.5rem", "lg": "0.75rem", "xl": "1rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        /* Custom accessibility focus styles */
+        *:focus-visible {
+            outline: 4px solid #067bf9;
+            outline-offset: 4px;
+        }
+        
+        .caterpillar-segment {
+            transition: all 0.3s ease;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display flex flex-col min-h-screen antialiased text-slate-900 dark:text-slate-50">
+<!-- Header Section -->
+<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-slate-200 dark:border-slate-800 bg-white dark:bg-[#1a2c38] px-6 lg:px-10 py-4 shadow-sm sticky top-0 z-50">
+<div class="flex items-center gap-4 text-slate-900 dark:text-white">
+<div class="size-8 text-primary">
+<span class="material-symbols-outlined !text-[32px]">local_hospital</span>
+</div>
+<h2 class="text-2xl font-black leading-tight tracking-[-0.015em]">Senior 119</h2>
+</div>
+<div class="flex flex-1 justify-end">
+<button class="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-12 px-6 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-900 dark:text-white text-base font-bold leading-normal transition-colors border border-slate-200 dark:border-slate-700">
+<span class="material-symbols-outlined mr-2">logout</span>
+<span class="truncate">Exit Diagnosis</span>
+</button>
+</div>
+</header>
+<!-- Main Layout Container -->
+<main class="flex flex-col flex-grow items-center justify-center px-4 py-6 md:py-10">
+<div class="w-full max-w-4xl flex flex-col gap-8 md:gap-12">
+<!-- Progress Section: The Caterpillar -->
+<section aria-label="Progress" class="flex flex-col gap-3 w-full">
+<div class="flex justify-between items-end px-1">
+<p class="text-slate-900 dark:text-white text-xl font-bold leading-normal">Step 3 <span class="text-slate-500 dark:text-slate-400 font-medium text-lg">of 10</span></p>
+<p class="text-primary text-sm font-semibold uppercase tracking-wider">Diagnosis in Progress</p>
+</div>
+<!-- Caterpillar Bar Container -->
+<div aria-valuemax="100" aria-valuemin="0" aria-valuenow="30" class="flex gap-2 h-6 md:h-8 w-full" role="progressbar">
+<!-- Active segments -->
+<div class="caterpillar-segment flex-1 bg-primary rounded-full shadow-sm"></div>
+<div class="caterpillar-segment flex-1 bg-primary rounded-full shadow-sm"></div>
+<div class="caterpillar-segment flex-1 bg-primary rounded-full shadow-sm"></div>
+<!-- Inactive segments -->
+<div class="caterpillar-segment flex-1 bg-slate-200 dark:bg-slate-700 rounded-full"></div>
+<div class="caterpillar-segment flex-1 bg-slate-200 dark:bg-slate-700 rounded-full"></div>
+<div class="caterpillar-segment flex-1 bg-slate-200 dark:bg-slate-700 rounded-full"></div>
+<div class="caterpillar-segment flex-1 bg-slate-200 dark:bg-slate-700 rounded-full hidden sm:block"></div>
+<div class="caterpillar-segment flex-1 bg-slate-200 dark:bg-slate-700 rounded-full hidden sm:block"></div>
+<div class="caterpillar-segment flex-1 bg-slate-200 dark:bg-slate-700 rounded-full hidden sm:block"></div>
+<div class="caterpillar-segment flex-1 bg-slate-200 dark:bg-slate-700 rounded-full hidden sm:block"></div>
+</div>
+</section>
+<!-- Question Card -->
+<section class="bg-white dark:bg-[#1e293b] rounded-xl shadow-lg border border-slate-100 dark:border-slate-800 p-8 md:p-12 flex flex-col md:flex-row gap-8 items-center md:items-start transition-all">
+<!-- Question Text -->
+<div class="flex-1 flex flex-col gap-6">
+<h1 class="text-slate-900 dark:text-white text-3xl md:text-4xl lg:text-[40px] font-black leading-tight tracking-tight text-center md:text-left">
+                        Did you get hired after your 65th birthday?
+                    </h1>
+<p class="text-slate-500 dark:text-slate-400 text-lg md:text-xl font-normal leading-relaxed text-center md:text-left">
+                        This helps us determine which retirement regulations apply to your specific case.
+                    </p>
+</div>
+<!-- Audio Button (Floating or Side) -->
+<div class="flex-shrink-0">
+<button aria-label="Read question aloud" class="group flex flex-col items-center justify-center size-24 md:size-32 rounded-2xl bg-slate-50 hover:bg-primary/10 dark:bg-slate-800 dark:hover:bg-primary/20 border-2 border-slate-200 dark:border-slate-700 hover:border-primary dark:hover:border-primary transition-all cursor-pointer">
+<span class="material-symbols-outlined !text-6xl text-primary group-hover:scale-110 transition-transform">volume_up</span>
+<span class="text-xs font-bold text-primary mt-2 uppercase tracking-wide">Listen</span>
+</button>
+</div>
+</section>
+<!-- Action Buttons Area -->
+<section class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 w-full">
+<!-- YES Button -->
+<button class="relative group flex items-center justify-center w-full h-32 md:h-40 rounded-xl bg-safety-green hover:bg-green-600 active:bg-green-700 text-white shadow-lg shadow-green-500/20 hover:shadow-green-500/40 transform hover:-translate-y-1 active:translate-y-0 transition-all duration-200 border-b-8 border-green-700 hover:border-green-800 active:border-green-700 active:border-b-0 active:mt-2">
+<div class="flex items-center gap-4 md:gap-6 pointer-events-none">
+<span class="material-symbols-outlined !text-[48px] md:!text-[64px] font-bold">check_circle</span>
+<span class="text-4xl md:text-5xl font-black tracking-tight">YES</span>
+</div>
+<!-- Helper text for screen readers or secondary label -->
+<span class="sr-only">Answer Yes</span>
+</button>
+<!-- NO Button -->
+<button class="relative group flex items-center justify-center w-full h-32 md:h-40 rounded-xl bg-emergency-red hover:bg-red-600 active:bg-red-700 text-white shadow-lg shadow-red-500/20 hover:shadow-red-500/40 transform hover:-translate-y-1 active:translate-y-0 transition-all duration-200 border-b-8 border-red-700 hover:border-red-800 active:border-red-700 active:border-b-0 active:mt-2">
+<div class="flex items-center gap-4 md:gap-6 pointer-events-none">
+<span class="material-symbols-outlined !text-[48px] md:!text-[64px] font-bold">cancel</span>
+<span class="text-4xl md:text-5xl font-black tracking-tight">NO</span>
+</div>
+<!-- Helper text for screen readers or secondary label -->
+<span class="sr-only">Answer No</span>
+</button>
+</section>
+<!-- Helper Links / Skip -->
+<div class="flex justify-center mt-4">
+<button class="text-slate-500 dark:text-slate-400 hover:text-primary dark:hover:text-primary underline text-lg font-medium transition-colors p-2">
+                    I'm not sure, skip this question for now
+                </button>
+</div>
+</div>
+</main>
+</body></html>
