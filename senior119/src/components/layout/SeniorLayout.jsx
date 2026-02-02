@@ -1,4 +1,5 @@
 import React from 'react';
+import SeniorNavigation from './SeniorNavigation';
 
 const SeniorLayout = ({ children }) => {
     return (
@@ -13,20 +14,8 @@ const SeniorLayout = ({ children }) => {
                 본문으로 바로가기
             </a>
 
-            {/* Top Navbar - Glass Effect */}
-            <header role="banner" className="sticky top-0 z-50 w-full glass-panel border-b border-indigo-50/50">
-                <div className="max-w-[1440px] mx-auto px-6 py-4 flex items-center justify-between">
-                    <div className="flex items-center gap-4 select-none cursor-pointer" onClick={() => window.location.href = '/'}>
-                        <div className="relative flex items-center justify-center size-12 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-2xl text-white shadow-lg shadow-blue-500/30 transform hover:scale-105 transition-transform duration-300">
-                            <span className="material-symbols-outlined text-[32px] drop-shadow-md" aria-hidden="true">medical_services</span>
-                        </div>
-                        <div className="flex flex-col">
-                            <h1 className="text-2xl font-black tracking-tight text-slate-800 leading-none">Senior 119</h1>
-                            <p className="text-xs font-bold text-slate-400 tracking-wide uppercase mt-1">Legal Emergency Room</p>
-                        </div>
-                    </div>
-                </div>
-            </header>
+            {/* New Navigation Bar (Replaces old header) */}
+            <SeniorNavigation />
 
             {/* Main Content Area - Centered Card */}
             <main id="main-content" role="main" className="flex-grow flex flex-col items-center justify-start px-4 md:px-6 py-8 w-full max-w-[1280px] mx-auto z-0">
@@ -40,10 +29,6 @@ const SeniorLayout = ({ children }) => {
                         <p className="text-slate-600 text-sm font-semibold">도움이 필요하신가요?</p>
                         <p className="text-xs text-slate-400 mt-1">© 2025 Senior 119. Designed for Accessibility.</p>
                     </div>
-                    <button className="group w-full md:w-auto flex items-center justify-center gap-3 bg-[#FEE500] hover:bg-[#FDD835] text-[#3C1E1E] font-bold text-lg py-3 px-8 rounded-2xl shadow-md hover:shadow-lg transition-all active:scale-95">
-                        <span className="material-symbols-outlined text-2xl group-hover:rotate-12 transition-transform" aria-hidden="true">chat_bubble</span>
-                        <span>자녀에게 공유하기</span>
-                    </button>
                 </div>
             </footer>
         </div>

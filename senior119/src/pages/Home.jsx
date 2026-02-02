@@ -17,9 +17,9 @@ const Home = () => {
             {/* Action Grid */}
             <div className="w-full grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 flex-1 min-h-[500px]">
 
-                {/* Card 1: Red - Unfair Dismissal (Fired) */}
+                {/* Card 1: Red - Unfair Dismissal / Violation */}
                 <button
-                    onClick={() => alert("준비 중입니다.")}
+                    onClick={() => navigate('/guide/violation')}
                     className="group relative flex flex-col items-center justify-center gap-6 p-8 rounded-[2rem] bg-gradient-to-br from-red-500 to-red-600 text-white shadow-xl shadow-red-500/20 hover:shadow-2xl hover:shadow-red-500/40 hover:-translate-y-2 transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-red-200 overflow-hidden"
                 >
                     {/* Glass Overlay */}
@@ -29,7 +29,7 @@ const Home = () => {
                         <span className="material-symbols-outlined text-[80px] md:text-[90px]" aria-hidden="true">person_cancel</span>
                     </div>
                     <h3 className="text-[28px] md:text-[34px] font-bold leading-tight drop-shadow-sm break-keep">
-                        갑자기<br />해고 당했어요!
+                        억울한 일을<br />당했어요!
                     </h3>
                     <div className="absolute bottom-8 right-8 opacity-60 group-hover:translate-x-2 transition-transform">
                         <span className="material-symbols-outlined text-4xl" aria-hidden="true">arrow_forward</span>
@@ -38,7 +38,7 @@ const Home = () => {
 
                 {/* Card 2: Orange - Severance Pay */}
                 <button
-                    onClick={() => alert("준비 중입니다.")}
+                    onClick={() => navigate('/guide/severance')}
                     className="group relative flex flex-col items-center justify-center gap-6 p-8 rounded-[2rem] bg-gradient-to-br from-orange-400 to-orange-500 text-white shadow-xl shadow-orange-500/20 hover:shadow-2xl hover:shadow-orange-500/40 hover:-translate-y-2 transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-orange-200 overflow-hidden"
                 >
                     {/* Glass Overlay */}
@@ -48,7 +48,7 @@ const Home = () => {
                         <span className="material-symbols-outlined text-[80px] md:text-[90px]" aria-hidden="true">sentiment_dissatisfied</span>
                     </div>
                     <h3 className="text-[28px] md:text-[34px] font-bold leading-tight drop-shadow-sm break-keep">
-                        퇴직금을<br />안 줘요!
+                        퇴직금 계산<br />해볼래요!
                     </h3>
                     <div className="absolute bottom-8 right-8 opacity-60 group-hover:translate-x-2 transition-transform">
                         <span className="material-symbols-outlined text-4xl" aria-hidden="true">arrow_forward</span>
@@ -57,7 +57,7 @@ const Home = () => {
 
                 {/* Card 3: Green - Unemployment Benefits (Active) */}
                 <button
-                    onClick={() => navigate('/check/unemployment')}
+                    onClick={() => navigate('/guide/unemployment')}
                     className="group relative flex flex-col items-center justify-center gap-6 p-8 rounded-[2rem] bg-gradient-to-br from-emerald-500 to-emerald-600 text-white shadow-2xl shadow-emerald-500/30 hover:shadow-emerald-500/50 hover:scale-[1.03] transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-emerald-200 ring-4 ring-offset-4 ring-emerald-100 overflow-hidden"
                 >
                     {/* Shine Effect */}
@@ -70,11 +70,30 @@ const Home = () => {
                         실업급여<br />받을 수 있나요?
                     </h3>
                     <div className="absolute bottom-6 right-6 flex items-center gap-2 bg-black/20 px-4 py-2 rounded-full backdrop-blur-sm">
-                        <span className="text-sm font-bold uppercase tracking-widest">Start</span>
+                        <span className="text-sm font-bold uppercase tracking-widest">분석하기</span>
                         <span className="material-symbols-outlined text-2xl" aria-hidden="true">arrow_forward</span>
                     </div>
                 </button>
 
+            </div>
+
+            {/* Location Finder Banner */}
+            <div className="w-full mt-12 animate-fadeIn delay-300">
+                <button
+                    onClick={() => navigate('/location')}
+                    className="w-full bg-white rounded-2xl p-6 shadow-lg border border-gray-100 flex items-center justify-between hover:shadow-xl hover:border-blue-200 transition-all group"
+                >
+                    <div className="flex items-center gap-4 text-left">
+                        <div className="bg-blue-50 p-3 rounded-full text-blue-600 group-hover:bg-blue-100 transition-colors">
+                            <span className="material-symbols-outlined text-3xl">location_on</span>
+                        </div>
+                        <div>
+                            <h3 className="text-xl font-bold text-gray-900">가까운 노동청/고용센터 찾기</h3>
+                            <p className="text-gray-500">내 위치에서 가장 가까운 신고 기관을 알려드립니다.</p>
+                        </div>
+                    </div>
+                    <span className="material-symbols-outlined text-gray-400 group-hover:text-blue-500 transition-colors text-3xl">arrow_forward</span>
+                </button>
             </div>
         </div>
     );

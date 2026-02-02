@@ -3,6 +3,10 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import SeniorLayout from './components/layout/SeniorLayout';
 import Home from './pages/Home';
 import CheckPage from './pages/CheckPage';
+import LocationFinder from './pages/LocationFinder';
+import Unemployment from './pages/guides/Unemployment';
+import Severance from './pages/guides/Severance';
+import Violation from './pages/guides/Violation';
 import { GlobalErrorBoundary } from './components/common/ErrorBoundary';
 import NotFound from './pages/NotFound';
 
@@ -18,6 +22,14 @@ function App() {
 
               {/* Diagnosis Page (Dynamic by type) */}
               <Route path="/check/:type" element={<CheckPage />} />
+
+              {/* Location Finder */}
+              <Route path="/location" element={<LocationFinder />} />
+
+              {/* Guides */}
+              <Route path="/guide/unemployment" element={<Unemployment />} />
+              <Route path="/guide/severance" element={<Severance />} />
+              <Route path="/guide/violation" element={<Violation />} />
 
               {/* 404 Page (Fallback) */}
               <Route path="*" element={<NotFound />} />
