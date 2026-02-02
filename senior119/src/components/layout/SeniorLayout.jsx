@@ -27,7 +27,11 @@ const SeniorLayout = ({ children }) => {
                 <div className="max-w-[1440px] mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
                     <div className="text-center md:text-left">
                         <p className="text-slate-600 text-sm font-semibold">도움이 필요하신가요?</p>
-                        <p className="text-xs text-slate-400 mt-1">© 2025 Senior 119. Designed for Accessibility.</p>
+                        <p className="text-xs text-slate-400 mt-1">© 2026 Senior 119. Designed for Accessibility.</p>
+                    </div>
+                    <div className="flex items-center gap-4">
+                        <a href="/privacy" className="text-xs text-slate-500 hover:text-blue-600 underline">개인정보 처리방침</a>
+                        <a href="tel:1350" className="text-xs font-bold text-orange-600 hover:text-orange-700">📞 고용노동부 1350</a>
                     </div>
                 </div>
             </footer>

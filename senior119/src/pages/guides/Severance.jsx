@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Calculator, ChevronsRight, RefreshCw, DollarSign } from 'lucide-react';
+import LegalDisclaimer from '../../components/common/LegalDisclaimer';
 
 const Severance = () => {
     const [step, setStep] = useState(1);
@@ -180,6 +181,7 @@ const Severance = () => {
                             <RefreshCw size={20} />
                             다시 계산하기
                         </button>
+                        <LegalDisclaimer />
                     </div>
                 </div>
             )}

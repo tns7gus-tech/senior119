@@ -7,6 +7,7 @@ import LocationFinder from './pages/LocationFinder';
 import Unemployment from './pages/guides/Unemployment';
 import Severance from './pages/guides/Severance';
 import Violation from './pages/guides/Violation';
+import Privacy from './pages/Privacy';
 import { GlobalErrorBoundary } from './components/common/ErrorBoundary';
 import NotFound from './pages/NotFound';
 
@@ -30,6 +31,9 @@ function App() {
               <Route path="/guide/unemployment" element={<Unemployment />} />
               <Route path="/guide/severance" element={<Severance />} />
               <Route path="/guide/violation" element={<Violation />} />
+
+              {/* Privacy Policy */}
+              <Route path="/privacy" element={<Privacy />} />
 
               {/* 404 Page (Fallback) */}
               <Route path="*" element={<NotFound />} />

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { ChevronLeft, CheckCircle2, XCircle, HelpCircle, ArrowRight } from 'lucide-react';
 import { unemploymentSteps, getResultContent } from '../../data/unemploymentLogic';
 import { useNavigate } from 'react-router-dom';
+import LegalDisclaimer from '../../components/common/LegalDisclaimer';
 
 const Unemployment = () => {
     const navigate = useNavigate();
@@ -166,6 +167,7 @@ const Unemployment = () => {
                                 )}
                             </div>
                         </div>
+                        <LegalDisclaimer />
                     </div>
                 )
             }
