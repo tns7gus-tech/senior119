@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
-import { Calculator, ChevronsRight, RefreshCw, DollarSign } from 'lucide-react';
+import { Calculator, ChevronsRight, RefreshCw, DollarSign, Camera } from 'lucide-react';
 import LegalDisclaimer from '../../components/common/LegalDisclaimer';
+import ImageUpload from '../../components/common/ImageUpload';
 
 const Severance = () => {
     const [step, setStep] = useState(1);
+    const [showOCR, setShowOCR] = useState(false);
     const [inputs, setInputs] = useState({
         joinDate: '',
         quitDate: '',
@@ -12,6 +14,17 @@ const Severance = () => {
         allowance: ''   // 연차 수당
     });
     const [result, setResult] = useState(null);
+
+    // OCR 결과 처리
+    const handleOCRResult = (data) => {
+        setInputs(prev => ({
+            ...prev,
+            joinDate: data.startDate || prev.joinDate,
+            quitDate: data.endDate || prev.quitDate,
+            baseSalary: data.salary ? String(data.salary * 3) : prev.baseSalary // 월급 * 3 = 3개월치
+        }));
+        setShowOCR(false);
+    };
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -73,6 +86,30 @@ const Severance = () => {
 
             {step === 1 ? (
                 <div className="bg-white rounded-2xl p-8 shadow-lg border-2 border-purple-50 animate-in fade-in slide-in-from-bottom-4">
+                    {/* OCR 자동 입력 섹션 */}
+                    {!showOCR ? (
+                        <button
+                            onClick={() => setShowOCR(true)}
+                            className="w-full mb-6 py-4 bg-gradient-to-r from-blue-500 to-purple-500 text-white rounded-xl font-bold text-lg shadow-lg hover:shadow-xl transition-all flex items-center justify-center gap-3"
+                        >
+                            <Camera size={24} />
+                            📄 사진으로 자동 입력 (AI)
+                        </button>
+                    ) : (
+                        <div className="mb-6">
+                            <ImageUpload
+                                onResult={handleOCRResult}
+                                onError={(err) => console.error(err)}
+                            />
+                            <button
+                                onClick={() => setShowOCR(false)}
+                                className="mt-3 text-sm text-gray-500 underline"
+                            >
+                                직접 입력하기
+                            </button>
+                        </div>
+                    )}
+
                     <div className="space-y-6">
                         <div>
                             <label className="block text-lg font-bold text-gray-800 mb-2">입사한 날짜</label>
