@@ -34,6 +34,10 @@ const SeniorNavigation = () => {
         { title: '실업급여 확인', path: '/guide/unemployment', icon: <FileQuestion size={24} />, color: 'text-emerald-600' },
         { title: '퇴직금 계산', path: '/guide/severance', icon: <Calculator size={24} />, color: 'text-purple-600' },
         { title: '억울한 일 신고', path: '/guide/violation', icon: <AlertCircle size={24} />, color: 'text-red-600' },
+        { title: '최저임금/주휴수당', path: '/guide/minimum-wage', icon: <Calculator size={24} />, color: 'text-blue-500' },
+        { title: '연차수당 계산', path: '/guide/annual-leave', icon: <Calculator size={24} />, color: 'text-teal-600' },
+        { title: '4대보험 확인', path: '/guide/insurance', icon: <AlertCircle size={24} />, color: 'text-indigo-600' },
+        { title: '부당해고 진단', path: '/guide/unfair-dismissal', icon: <AlertCircle size={24} />, color: 'text-rose-600' },
         { title: '가까운 센터 찾기', path: '/location', icon: <MapPin size={24} />, color: 'text-orange-600' },
     ];
 
