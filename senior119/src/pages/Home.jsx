@@ -4,11 +4,17 @@ import { useNavigate } from 'react-router-dom';
 const Home = () => {
     const navigate = useNavigate();
 
+    // 페이지 이동 시 상단으로 스크롤
+    const goTo = (path) => {
+        window.scrollTo(0, 0);
+        navigate(path);
+    };
+
     return (
         <div className="w-full flex flex-col items-center">
             {/* Hero Text */}
             <div className="text-center max-w-4xl mx-auto mb-10 animate-fadeIn">
-                <h2 className="text-[#0d141c] dark:text-white text-[32px] md:text-[40px] font-bold leading-tight break-keep">
+                <h2 className="text-gray-900 text-[32px] md:text-[40px] font-bold leading-tight break-keep">
                     어르신! 억울하게 돈을 못 받으셨나요?<br />
                     <span className="text-primary block mt-2">지금 바로 확인해 드릴게요.</span>
                 </h2>
@@ -19,7 +25,7 @@ const Home = () => {
 
                 {/* Card 1: Red - Unfair Dismissal / Violation */}
                 <button
-                    onClick={() => navigate('/guide/violation')}
+                    onClick={() => goTo('/guide/violation')}
                     className="group relative flex flex-col items-center justify-center gap-6 p-8 rounded-[2rem] bg-gradient-to-br from-red-500 to-red-600 text-white shadow-xl shadow-red-500/20 hover:shadow-2xl hover:shadow-red-500/40 hover:-translate-y-2 transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-red-200 overflow-hidden"
                 >
                     {/* Glass Overlay */}
@@ -38,7 +44,7 @@ const Home = () => {
 
                 {/* Card 2: Orange - Severance Pay */}
                 <button
-                    onClick={() => navigate('/guide/severance')}
+                    onClick={() => goTo('/guide/severance')}
                     className="group relative flex flex-col items-center justify-center gap-6 p-8 rounded-[2rem] bg-gradient-to-br from-orange-400 to-orange-500 text-white shadow-xl shadow-orange-500/20 hover:shadow-2xl hover:shadow-orange-500/40 hover:-translate-y-2 transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-orange-200 overflow-hidden"
                 >
                     {/* Glass Overlay */}
@@ -57,7 +63,7 @@ const Home = () => {
 
                 {/* Card 3: Green - Unemployment Benefits (Active) */}
                 <button
-                    onClick={() => navigate('/guide/unemployment')}
+                    onClick={() => goTo('/guide/unemployment')}
                     className="group relative flex flex-col items-center justify-center gap-6 p-8 rounded-[2rem] bg-gradient-to-br from-emerald-500 to-emerald-600 text-white shadow-2xl shadow-emerald-500/30 hover:shadow-emerald-500/50 hover:scale-[1.03] transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-emerald-200 ring-4 ring-offset-4 ring-emerald-100 overflow-hidden"
                 >
                     {/* Shine Effect */}
@@ -80,7 +86,7 @@ const Home = () => {
             {/* Location Finder Banner */}
             <div className="w-full mt-12 animate-fadeIn delay-300">
                 <button
-                    onClick={() => navigate('/location')}
+                    onClick={() => goTo('/location')}
                     className="w-full bg-white rounded-2xl p-6 shadow-lg border border-gray-100 flex items-center justify-between hover:shadow-xl hover:border-blue-200 transition-all group"
                 >
                     <div className="flex items-center gap-4 text-left">

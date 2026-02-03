@@ -10,7 +10,19 @@ const SeniorNavigation = () => {
     // Close menu when route changes
     useEffect(() => {
         setIsOpen(false);
+        window.scrollTo(0, 0); // 페이지 이동 시 상단으로 스크롤
     }, [location.pathname]);
+
+    // ESC 키로 메뉴 닫기 (접근성)
+    useEffect(() => {
+        const handleEsc = (e) => {
+            if (e.key === 'Escape' && isOpen) {
+                setIsOpen(false);
+            }
+        };
+        document.addEventListener('keydown', handleEsc);
+        return () => document.removeEventListener('keydown', handleEsc);
+    }, [isOpen]);
 
     const toggleMenu = () => setIsOpen(!isOpen);
 
@@ -100,8 +112,8 @@ const SeniorNavigation = () => {
                                     key={item.path}
                                     onClick={() => navigate(item.path)}
                                     className={`w-full flex items-center gap-4 p-4 rounded-xl transition-all border border-transparent ${location.pathname === item.path
-                                            ? 'bg-blue-50 border-blue-200 text-blue-800 font-bold shadow-sm'
-                                            : 'hover:bg-gray-50 text-gray-700 font-medium'
+                                        ? 'bg-blue-50 border-blue-200 text-blue-800 font-bold shadow-sm'
+                                        : 'hover:bg-gray-50 text-gray-700 font-medium'
                                         }`}
                                 >
                                     <div className={`${item.color}`}>

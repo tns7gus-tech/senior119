@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { Camera, Upload, Loader2, X, CheckCircle, AlertCircle } from 'lucide-react';
+import { Camera, Image, FolderOpen, Loader2, X, CheckCircle, AlertCircle } from 'lucide-react';
 
 /**
  * ImageUpload - AI 문서 스캐너 컴포넌트
@@ -13,6 +13,8 @@ const ImageUpload = ({ onResult, onError }) => {
     const [preview, setPreview] = useState(null);
     const [result, setResult] = useState(null);
     const [error, setError] = useState(null);
+    const cameraInputRef = useRef(null);
+    const galleryInputRef = useRef(null);
     const fileInputRef = useRef(null);
 
     const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001';
@@ -77,48 +79,74 @@ const ImageUpload = ({ onResult, onError }) => {
         setPreview(null);
         setResult(null);
         setError(null);
-        if (fileInputRef.current) {
-            fileInputRef.current.value = '';
-        }
+        [cameraInputRef, galleryInputRef, fileInputRef].forEach(ref => {
+            if (ref.current) ref.current.value = '';
+        });
     };
 
     return (
         <div className="w-full space-y-4">
-            {/* Upload Area */}
+            {/* Hidden inputs for different capture modes */}
+            <input
+                ref={cameraInputRef}
+                type="file"
+                accept="image/*"
+                capture="environment"
+                onChange={handleFileSelect}
+                className="hidden"
+            />
+            <input
+                ref={galleryInputRef}
+                type="file"
+                accept="image/*"
+                onChange={handleFileSelect}
+                className="hidden"
+            />
+            <input
+                ref={fileInputRef}
+                type="file"
+                accept="image/*,.pdf"
+                onChange={handleFileSelect}
+                className="hidden"
+            />
+
+            {/* Upload Buttons */}
             {!preview && (
-                <div className="relative">
-                    <input
-                        ref={fileInputRef}
-                        type="file"
-                        accept="image/*"
-                        capture="environment"
-                        onChange={handleFileSelect}
-                        className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
-                    />
-                    <div className="border-2 border-dashed border-blue-300 rounded-2xl p-8 text-center bg-blue-50 hover:bg-blue-100 transition-colors">
-                        <div className="flex flex-col items-center gap-4">
-                            <div className="flex gap-4">
-                                <div className="p-4 bg-blue-500 text-white rounded-full">
-                                    <Camera size={32} />
-                                </div>
-                                <div className="p-4 bg-purple-500 text-white rounded-full">
-                                    <Upload size={32} />
-                                </div>
-                            </div>
-                            <div>
-                                <p className="text-xl font-bold text-gray-800">
-                                    📄 사진으로 자동 입력
-                                </p>
-                                <p className="text-gray-600 mt-2">
-                                    자격득실확인서, 급여명세서 사진을 찍거나<br />
-                                    갤러리에서 선택하세요
-                                </p>
-                                <p className="text-sm text-blue-600 mt-2 font-medium">
-                                    AI가 자동으로 날짜와 금액을 읽어옵니다
-                                </p>
-                            </div>
-                        </div>
-                    </div>
+                <div className="space-y-3">
+                    <p className="text-center text-lg font-bold text-gray-800 mb-4">
+                        📄 사진으로 자동 입력
+                    </p>
+
+                    {/* Camera Button */}
+                    <button
+                        onClick={() => cameraInputRef.current?.click()}
+                        className="w-full p-5 bg-blue-500 hover:bg-blue-600 text-white rounded-xl font-bold text-lg shadow-lg flex items-center justify-center gap-4 transition-all active:scale-98"
+                    >
+                        <Camera size={28} />
+                        📸 카메라로 바로 찍기
+                    </button>
+
+                    {/* Gallery Button */}
+                    <button
+                        onClick={() => galleryInputRef.current?.click()}
+                        className="w-full p-5 bg-purple-500 hover:bg-purple-600 text-white rounded-xl font-bold text-lg shadow-lg flex items-center justify-center gap-4 transition-all active:scale-98"
+                    >
+                        <Image size={28} />
+                        🖼️ 갤러리에서 선택
+                    </button>
+
+                    {/* File Picker Button */}
+                    <button
+                        onClick={() => fileInputRef.current?.click()}
+                        className="w-full p-4 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-xl font-bold text-base border-2 border-gray-200 flex items-center justify-center gap-3 transition-all"
+                    >
+                        <FolderOpen size={24} />
+                        📁 내 파일에서 찾기
+                    </button>
+
+                    <p className="text-center text-sm text-blue-600 font-medium mt-2">
+                        AI가 자동으로 날짜와 금액을 읽어옵니다
+                    </p>
                 </div>
             )}
 
