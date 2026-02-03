@@ -179,6 +179,70 @@ app.post('/api/ocr', ocrLimiter, upload.single('image'), async (req, res) => {
     }
 });
 
+// 4. AI Chat - 노동법 상담 챗봇
+const chatLimiter = rateLimit({
+    windowMs: 1 * 60 * 1000,
+    max: 20, // 분당 20회
+    message: { success: false, error: '채팅 요청이 너무 많습니다. 잠시 후 다시 시도해주세요.' }
+});
+
+app.post('/api/chat', chatLimiter, async (req, res) => {
+    try {
+        const { message, context } = req.body;
+
+        if (!message || typeof message !== 'string' || message.length > 1000) {
+            return res.status(400).json({ success: false, error: '메시지를 입력해주세요.' });
+        }
+
+        if (!genAI) {
+            return res.status(500).json({ success: false, error: 'AI 서비스가 설정되지 않았습니다.' });
+        }
+
+        console.log("💬 [Chat Request]:", message.substring(0, 50));
+
+        const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash' });
+
+        const systemPrompt = `당신은 한국 노동법 전문 상담사입니다. 65세 이상 어르신들이 이해하기 쉽게 친절하게 설명해주세요.
+
+당신이 상담하는 주요 분야:
+- 실업급여 (65세 이상 특례, 자격 요건)
+- 퇴직금 (계산법, 미지급 시 대응)
+- 임금체불 (신고 방법, 증거 수집)
+- 4대보험 (국민연금, 건강보험, 고용보험, 산재보험)
+- 부당해고 (노동위원회 구제신청)
+- 최저임금, 주휴수당, 연차휴가
+
+응답 규칙:
+1. 쉬운 단어로 짧게 설명 (3-4문장)
+2. 구체적인 금액이나 기간은 "대략", "약"으로 표현
+3. 정확한 상담이 필요하면 "고용노동부 1350"이나 "대한법률구조공단 132" 안내
+4. 존댓말 사용, 따뜻한 말투
+5. 이모지 적절히 사용
+6. 법률 조언이 아닌 일반적인 정보 제공임을 명시
+
+절대로 법률 자문을 해주지 마세요. 정확한 판단은 전문가 상담을 권장하세요.`;
+
+        const result = await model.generateContent([
+            systemPrompt,
+            `사용자 질문: ${message}`
+        ]);
+
+        const response = await result.response;
+        const reply = response.text();
+
+        console.log("🤖 [Chat Reply]:", reply.substring(0, 50));
+
+        res.json({ success: true, reply });
+
+    } catch (error) {
+        console.error("❌ Chat Error:", error.message);
+        res.status(500).json({
+            success: false,
+            error: '답변 생성 중 오류가 발생했습니다.'
+        });
+    }
+});
+
 // ============ 에러 핸들링 ============
 
 app.use((error, req, res, next) => {

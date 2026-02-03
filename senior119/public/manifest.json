@@ -1,0 +1,55 @@
+{
+    "name": "시니어119 - 노동법 도우미",
+    "short_name": "시니어119",
+    "description": "60세 이상 어르신을 위한 실업급여, 퇴직금, 임금체불 상담 서비스",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#ffffff",
+    "theme_color": "#3b82f6",
+    "orientation": "portrait-primary",
+    "lang": "ko",
+    "icons": [
+        {
+            "src": "/icon-192.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "any maskable"
+        },
+        {
+            "src": "/icon-512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "any maskable"
+        }
+    ],
+    "categories": [
+        "finance",
+        "government",
+        "utilities"
+    ],
+    "screenshots": [],
+    "shortcuts": [
+        {
+            "name": "실업급여 확인",
+            "short_name": "실업급여",
+            "url": "/guide/unemployment",
+            "icons": [
+                {
+                    "src": "/icon-192.png",
+                    "sizes": "192x192"
+                }
+            ]
+        },
+        {
+            "name": "퇴직금 계산",
+            "short_name": "퇴직금",
+            "url": "/guide/severance",
+            "icons": [
+                {
+                    "src": "/icon-192.png",
+                    "sizes": "192x192"
+                }
+            ]
+        }
+    ]
+}

@@ -14,6 +14,7 @@ import UnfairDismissal from './pages/guides/UnfairDismissal';
 import Privacy from './pages/Privacy';
 import { GlobalErrorBoundary } from './components/common/ErrorBoundary';
 import NotFound from './pages/NotFound';
+import AIChatbot from './components/common/AIChatbot';
 
 function App() {
   return (
@@ -49,6 +50,9 @@ function App() {
               <Route path="*" element={<NotFound />} />
             </Routes>
           </SeniorLayout>
+
+          {/* Floating AI Chatbot */}
+          <AIChatbot />
         </BrowserRouter>
       </GlobalErrorBoundary>
     </div>
@@ -56,4 +60,5 @@ function App() {
 }
 
 export default App;
+
 
