@@ -1,5 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import ShareButtons from '../components/common/ShareButtons';
+import ExpertBadge from '../components/common/ExpertBadge';
 
 const Home = () => {
     const navigate = useNavigate();
@@ -144,6 +146,12 @@ const Home = () => {
                     </div>
                     <span className="material-symbols-outlined text-gray-400 group-hover:text-blue-500 transition-colors text-3xl">arrow_forward</span>
                 </button>
+            </div>
+
+            {/* Share & Badge Section */}
+            <div className="w-full mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
+                <ShareButtons title="시니어119 - 노동법 도우미" />
+                <ExpertBadge lastUpdated="2025년 1월" />
             </div>
         </div>
     );

@@ -3,6 +3,8 @@ import { ChevronLeft, CheckCircle2, XCircle, HelpCircle, ArrowRight } from 'luci
 import { unemploymentSteps, getResultContent } from '../../data/unemploymentLogic';
 import { useNavigate } from 'react-router-dom';
 import LegalDisclaimer from '../../components/common/LegalDisclaimer';
+import LegalSources from '../../components/common/LegalSources';
+import ShareButtons from '../../components/common/ShareButtons';
 
 const Unemployment = () => {
     const navigate = useNavigate();
@@ -168,6 +170,13 @@ const Unemployment = () => {
                             </div>
                         </div>
                         <LegalDisclaimer />
+                        <div className="mt-4 space-y-4">
+                            <LegalSources sources={[
+                                { name: '고용보험법', url: 'https://www.law.go.kr/법령/고용보험법', icon: '📋' },
+                                { name: '실업급여 안내 (고용부)', url: 'https://www.ei.go.kr', icon: '🏛️' }
+                            ]} />
+                            <ShareButtons title="실업급여 받을 수 있나요? - 시니어119" />
+                        </div>
                     </div>
                 )
             }
