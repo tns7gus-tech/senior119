@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { Camera, Image, FolderOpen, Loader2, X, CheckCircle, AlertCircle } from 'lucide-react';
+import { Camera, Image, FolderOpen, Loader2, X, CheckCircle, AlertCircle, FileText } from 'lucide-react';
 
 /**
  * ImageUpload - AI 문서 스캐너 컴포넌트
@@ -13,6 +13,7 @@ const ImageUpload = ({ onResult, onError }) => {
     const [preview, setPreview] = useState(null);
     const [result, setResult] = useState(null);
     const [error, setError] = useState(null);
+    const [showOptions, setShowOptions] = useState(false);
     const cameraInputRef = useRef(null);
     const galleryInputRef = useRef(null);
     const fileInputRef = useRef(null);
@@ -23,9 +24,11 @@ const ImageUpload = ({ onResult, onError }) => {
         const file = event.target.files?.[0];
         if (!file) return;
 
-        // Validate file type
-        if (!file.type.startsWith('image/')) {
-            setError('이미지 파일만 업로드할 수 있습니다.');
+        // Validate file type (이미지 및 PDF 허용)
+        const isImage = file.type.startsWith('image/');
+        const isPDF = file.type === 'application/pdf';
+        if (!isImage && !isPDF) {
+            setError('이미지 또는 PDF 파일만 업로드할 수 있습니다.');
             return;
         }
 
@@ -36,16 +39,22 @@ const ImageUpload = ({ onResult, onError }) => {
         }
 
         // Create preview
-        const reader = new FileReader();
-        reader.onload = (e) => {
-            setPreview(e.target?.result);
-        };
-        reader.readAsDataURL(file);
+        if (isImage) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                setPreview(e.target?.result);
+            };
+            reader.readAsDataURL(file);
+        } else {
+            // PDF 파일의 경우 아이콘 표시
+            setPreview('pdf');
+        }
 
         // Reset states
         setError(null);
         setResult(null);
         setIsUploading(true);
+        setShowOptions(false);
 
         try {
             const formData = new FormData();
@@ -67,7 +76,7 @@ const ImageUpload = ({ onResult, onError }) => {
 
         } catch (err) {
             console.error('Upload error:', err);
-            const errorMsg = err.message || '이미지 분석에 실패했습니다.';
+            const errorMsg = err.message || '파일 분석에 실패했습니다.';
             setError(errorMsg);
             onError?.(errorMsg);
         } finally {
@@ -79,9 +88,21 @@ const ImageUpload = ({ onResult, onError }) => {
         setPreview(null);
         setResult(null);
         setError(null);
+        setShowOptions(false);
         [cameraInputRef, galleryInputRef, fileInputRef].forEach(ref => {
             if (ref.current) ref.current.value = '';
         });
+    };
+
+    const handleOptionClick = (type) => {
+        setShowOptions(false);
+        if (type === 'camera') {
+            cameraInputRef.current?.click();
+        } else if (type === 'gallery') {
+            galleryInputRef.current?.click();
+        } else if (type === 'file') {
+            fileInputRef.current?.click();
+        }
     };
 
     return (
@@ -105,44 +126,53 @@ const ImageUpload = ({ onResult, onError }) => {
             <input
                 ref={fileInputRef}
                 type="file"
-                accept="image/*,.pdf"
+                accept="image/*,.pdf,application/pdf"
                 onChange={handleFileSelect}
                 className="hidden"
             />
 
-            {/* Upload Buttons */}
+            {/* 통합 버튼 + 드롭다운 옵션 */}
             {!preview && (
-                <div className="space-y-3">
+                <div className="space-y-3 relative">
                     <p className="text-center text-lg font-bold text-gray-800 mb-4">
-                        📄 사진으로 자동 입력
+                        📄 사진/PDF로 자동 입력
                     </p>
 
-                    {/* Camera Button */}
+                    {/* 통합 버튼 */}
                     <button
-                        onClick={() => cameraInputRef.current?.click()}
-                        className="w-full p-5 bg-blue-500 hover:bg-blue-600 text-white rounded-xl font-bold text-lg shadow-lg flex items-center justify-center gap-4 transition-all active:scale-98"
+                        onClick={() => setShowOptions(!showOptions)}
+                        className="w-full p-5 bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white rounded-xl font-bold text-lg shadow-lg flex items-center justify-center gap-4 transition-all active:scale-98"
                     >
                         <Camera size={28} />
-                        📸 카메라로 바로 찍기
+                        📷 사진/파일 선택하기
                     </button>
 
-                    {/* Gallery Button */}
-                    <button
-                        onClick={() => galleryInputRef.current?.click()}
-                        className="w-full p-5 bg-purple-500 hover:bg-purple-600 text-white rounded-xl font-bold text-lg shadow-lg flex items-center justify-center gap-4 transition-all active:scale-98"
-                    >
-                        <Image size={28} />
-                        🖼️ 갤러리에서 선택
-                    </button>
-
-                    {/* File Picker Button */}
-                    <button
-                        onClick={() => fileInputRef.current?.click()}
-                        className="w-full p-4 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-xl font-bold text-base border-2 border-gray-200 flex items-center justify-center gap-3 transition-all"
-                    >
-                        <FolderOpen size={24} />
-                        📁 내 파일에서 찾기
-                    </button>
+                    {/* 드롭다운 옵션 메뉴 */}
+                    {showOptions && (
+                        <div className="absolute left-0 right-0 top-full mt-2 bg-white rounded-xl shadow-2xl border-2 border-gray-100 overflow-hidden z-50 animate-in fade-in slide-in-from-top-2">
+                            <button
+                                onClick={() => handleOptionClick('gallery')}
+                                className="w-full p-4 hover:bg-purple-50 text-gray-800 font-bold text-lg flex items-center gap-4 transition-colors border-b border-gray-100"
+                            >
+                                <Image size={24} className="text-purple-500" />
+                                🖼️ 사진보관함
+                            </button>
+                            <button
+                                onClick={() => handleOptionClick('camera')}
+                                className="w-full p-4 hover:bg-blue-50 text-gray-800 font-bold text-lg flex items-center gap-4 transition-colors border-b border-gray-100"
+                            >
+                                <Camera size={24} className="text-blue-500" />
+                                📸 사진 찍기
+                            </button>
+                            <button
+                                onClick={() => handleOptionClick('file')}
+                                className="w-full p-4 hover:bg-gray-50 text-gray-800 font-bold text-lg flex items-center gap-4 transition-colors"
+                            >
+                                <FolderOpen size={24} className="text-gray-500" />
+                                📁 파일 선택 (PDF 가능)
+                            </button>
+                        </div>
+                    )}
 
                     <p className="text-center text-sm text-blue-600 font-medium mt-2">
                         AI가 자동으로 날짜와 금액을 읽어옵니다
@@ -153,11 +183,19 @@ const ImageUpload = ({ onResult, onError }) => {
             {/* Preview & Processing */}
             {preview && (
                 <div className="relative rounded-2xl overflow-hidden border-2 border-gray-200">
-                    <img
-                        src={preview}
-                        alt="업로드된 이미지"
-                        className="w-full max-h-64 object-contain bg-gray-100"
-                    />
+                    {preview === 'pdf' ? (
+                        <div className="w-full h-48 bg-gray-100 flex flex-col items-center justify-center">
+                            <FileText size={64} className="text-red-500" />
+                            <p className="mt-2 text-lg font-bold text-gray-700">PDF 문서</p>
+                            <p className="text-sm text-gray-500">AI가 분석할 준비가 되었습니다</p>
+                        </div>
+                    ) : (
+                        <img
+                            src={preview}
+                            alt="업로드된 이미지"
+                            className="w-full max-h-64 object-contain bg-gray-100"
+                        />
+                    )}
 
                     {/* Reset button */}
                     <button
