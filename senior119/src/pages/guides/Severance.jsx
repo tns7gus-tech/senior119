@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Calculator, ChevronsRight, RefreshCw, DollarSign, Camera } from 'lucide-react';
+import { Calculator, ChevronsRight, RefreshCw, Camera, RotateCcw } from 'lucide-react';
 import LegalDisclaimer from '../../components/common/LegalDisclaimer';
 import ImageUpload from '../../components/common/ImageUpload';
 
@@ -26,11 +26,45 @@ const Severance = () => {
         setShowOCR(false);
     };
 
+    // 숫자만 추출하는 헬퍼
+    const parseNumber = (str) => {
+        return parseInt(str.replace(/[^0-9]/g, ''), 10) || 0;
+    };
+
+    // 콤마 포맷팅
+    const formatNumber = (num) => {
+        if (!num || num === 0) return '';
+        return num.toLocaleString();
+    };
+
     const handleInputChange = (e) => {
         const { name, value } = e.target;
+        // 숫자와 콤마만 허용, 콤마 자동 추가
+        const numericValue = value.replace(/[^0-9]/g, '');
+        const formattedValue = numericValue ? parseInt(numericValue, 10).toLocaleString() : '';
         setInputs(prev => ({
             ...prev,
-            [name]: value
+            [name]: formattedValue
+        }));
+    };
+
+    // 금액 빠른 추가 버튼
+    const addAmount = (fieldName, amount) => {
+        setInputs(prev => {
+            const currentValue = parseNumber(prev[fieldName]);
+            const newValue = currentValue + amount;
+            return {
+                ...prev,
+                [fieldName]: formatNumber(newValue)
+            };
+        });
+    };
+
+    // 금액 초기화
+    const resetAmount = (fieldName) => {
+        setInputs(prev => ({
+            ...prev,
+            [fieldName]: ''
         }));
     };
 
@@ -138,16 +172,65 @@ const Severance = () => {
                                 최근 3개월간 받은 월급 총액 (세전)
                             </label>
                             <p className="text-gray-500 text-sm mb-2">예: 매달 200만원씩 받았다면 600만원 입력</p>
+
+                            {/* 금액 입력 필드 */}
                             <div className="relative">
-                                <DollarSign className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" />
                                 <input
                                     type="text"
                                     name="baseSalary"
                                     placeholder="0"
                                     value={inputs.baseSalary}
                                     onChange={handleInputChange}
-                                    className="w-full pl-10 p-4 text-lg border-2 border-gray-200 rounded-xl focus:border-purple-500 focus:outline-none font-mono"
+                                    className="w-full p-4 pr-14 text-2xl border-2 border-gray-200 rounded-xl focus:border-purple-500 focus:outline-none font-mono text-right"
                                 />
+                                <span className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 text-lg font-bold">원</span>
+                            </div>
+
+                            {/* 금액 빠른 추가 버튼 */}
+                            <div className="flex flex-wrap gap-2 mt-3">
+                                <button
+                                    type="button"
+                                    onClick={() => addAmount('baseSalary', 10000)}
+                                    className="px-3 py-2 bg-blue-50 text-blue-600 rounded-lg font-bold text-sm hover:bg-blue-100 transition-colors"
+                                >
+                                    +1만
+                                </button>
+                                <button
+                                    type="button"
+                                    onClick={() => addAmount('baseSalary', 50000)}
+                                    className="px-3 py-2 bg-blue-50 text-blue-600 rounded-lg font-bold text-sm hover:bg-blue-100 transition-colors"
+                                >
+                                    +5만
+                                </button>
+                                <button
+                                    type="button"
+                                    onClick={() => addAmount('baseSalary', 100000)}
+                                    className="px-3 py-2 bg-blue-100 text-blue-700 rounded-lg font-bold text-sm hover:bg-blue-200 transition-colors"
+                                >
+                                    +10만
+                                </button>
+                                <button
+                                    type="button"
+                                    onClick={() => addAmount('baseSalary', 1000000)}
+                                    className="px-3 py-2 bg-purple-100 text-purple-700 rounded-lg font-bold text-sm hover:bg-purple-200 transition-colors"
+                                >
+                                    +100만
+                                </button>
+                                <button
+                                    type="button"
+                                    onClick={() => addAmount('baseSalary', 10000000)}
+                                    className="px-3 py-2 bg-purple-200 text-purple-800 rounded-lg font-bold text-sm hover:bg-purple-300 transition-colors"
+                                >
+                                    +1000만
+                                </button>
+                                <button
+                                    type="button"
+                                    onClick={() => resetAmount('baseSalary')}
+                                    className="px-3 py-2 bg-gray-100 text-gray-600 rounded-lg font-bold text-sm hover:bg-gray-200 transition-colors flex items-center gap-1"
+                                >
+                                    <RotateCcw size={14} />
+                                    초기화
+                                </button>
                             </div>
                         </div>
 
