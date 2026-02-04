@@ -19,7 +19,7 @@ const LegalDisclaimer = () => {
                     </p>
                     <div className="mt-3 flex flex-wrap gap-2">
                         <a
-                            href="https://www.cpla.or.kr/"
+                            href="https://www.kcplaa.or.kr/"
                             target="_blank"
                             rel="noopener noreferrer"
                             className="inline-flex items-center gap-1 text-xs bg-white px-3 py-1.5 rounded-lg border border-amber-300 hover:bg-amber-100 transition-colors font-medium"
