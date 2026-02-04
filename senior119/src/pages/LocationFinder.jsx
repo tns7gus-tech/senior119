@@ -123,23 +123,26 @@ const LocationFinder = () => {
                         </div>
                     </div>
 
-                    {sortedCenters.length > 1 && (
+                    {sortedCenters.filter(c => c.distance <= 25).length > 1 && (
                         <div className="mt-8 pt-4 border-t border-gray-200">
-                            <h4 className="text-lg font-bold text-gray-900 mb-4 px-2">다른 가까운 센터들</h4>
+                            <h4 className="text-lg font-bold text-gray-900 mb-4 px-2">다른 가까운 센터들 (25km 이내)</h4>
                             <div className="space-y-3">
-                                {sortedCenters.slice(1, 4).map(center => (
-                                    <div key={center.id} className="bg-white p-4 rounded-xl shadow-sm border border-gray-100 flex justify-between items-center">
-                                        <div>
-                                            <p className="font-bold text-gray-900">{center.name}</p>
-                                            <p className="text-sm text-gray-500">{center.address}</p>
+                                {sortedCenters
+                                    .filter(c => c.distance <= 25)
+                                    .slice(1, 4)
+                                    .map(center => (
+                                        <div key={center.id} className="bg-white p-4 rounded-xl shadow-sm border border-gray-100 flex justify-between items-center">
+                                            <div>
+                                                <p className="font-bold text-gray-900">{center.name}</p>
+                                                <p className="text-sm text-gray-500">{center.address}</p>
+                                            </div>
+                                            <div className="text-right">
+                                                <span className="text-sm font-medium text-orange-600 block">
+                                                    {center.distance.toFixed(1)}km
+                                                </span>
+                                            </div>
                                         </div>
-                                        <div className="text-right">
-                                            <span className="text-sm font-medium text-orange-600 block">
-                                                {center.distance.toFixed(1)}km
-                                            </span>
-                                        </div>
-                                    </div>
-                                ))}
+                                    ))}
                             </div>
                         </div>
                     )}
