@@ -11,6 +11,7 @@ import MinimumWage from './pages/guides/MinimumWage';
 import AnnualLeave from './pages/guides/AnnualLeave';
 import Insurance from './pages/guides/Insurance';
 import UnfairDismissal from './pages/guides/UnfairDismissal';
+import Evidence from './pages/guides/Evidence';
 import Privacy from './pages/Privacy';
 import { GlobalErrorBoundary } from './components/common/ErrorBoundary';
 import NotFound from './pages/NotFound';
@@ -42,6 +43,7 @@ function App() {
               <Route path="/guide/annual-leave" element={<AnnualLeave />} />
               <Route path="/guide/insurance" element={<Insurance />} />
               <Route path="/guide/unfair-dismissal" element={<UnfairDismissal />} />
+              <Route path="/guide/evidence" element={<Evidence />} />
 
               {/* Privacy Policy */}
               <Route path="/privacy" element={<Privacy />} />

@@ -48,8 +48,8 @@ const Violation = () => {
                             key={item.id}
                             onClick={() => toggleCheck(item.id)}
                             className={`w-full p-5 text-left rounded-xl transition-all flex items-start gap-4 border-2 ${checkedItems[item.id]
-                                    ? 'bg-red-50 border-red-500 text-red-900'
-                                    : 'bg-white border-gray-200 text-gray-700 hover:border-red-300 hover:bg-red-50/50'
+                                ? 'bg-red-50 border-red-500 text-red-900'
+                                : 'bg-white border-gray-200 text-gray-700 hover:border-red-300 hover:bg-red-50/50'
                                 }`}
                         >
                             <div className={`shrink-0 mt-1 ${checkedItems[item.id] ? 'text-red-600' : 'text-gray-300'}`}>
@@ -81,7 +81,7 @@ const Violation = () => {
                             <ArrowRight size={20} />
                         </button>
                         <button
-                            onClick={() => alert("증거 수집 가이드 준비 중입니다.")} // Future todo or simple alert
+                            onClick={() => navigate('/guide/evidence')}
                             className="py-4 px-6 bg-red-700 text-white rounded-xl font-bold text-lg hover:bg-red-800 transition-colors shadow-sm flex items-center justify-center gap-2 border border-red-500"
                         >
                             <FileText size={20} />
