@@ -61,12 +61,12 @@ const upload = multer({
     storage: multer.memoryStorage(),
     limits: { fileSize: 10 * 1024 * 1024 }, // 10MB limit
     fileFilter: (req, file, cb) => {
-        // 허용된 MIME 타입
-        const allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
+        // 허용된 MIME 타입 (이미지 + PDF)
+        const allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp', 'application/pdf'];
         if (allowedTypes.includes(file.mimetype)) {
             cb(null, true);
         } else {
-            cb(new Error('지원하지 않는 이미지 형식입니다. (JPG, PNG, GIF, WEBP만 가능)'), false);
+            cb(new Error('지원하지 않는 파일 형식입니다. (JPG, PNG, GIF, WEBP, PDF만 가능)'), false);
         }
     }
 });
@@ -107,17 +107,27 @@ app.post('/api/diagnosis', (req, res) => {
 app.post('/api/ocr', ocrLimiter, upload.single('image'), async (req, res) => {
     try {
         if (!req.file) {
-            return res.status(400).json({ success: false, error: '이미지를 업로드해주세요.' });
+            return res.status(400).json({ success: false, error: '파일을 업로드해주세요.' });
         }
 
         if (!genAI) {
-            return res.status(500).json({ success: false, error: 'OCR 서비스가 설정되지 않았습니다.' });
+            return res.status(500).json({ success: false, error: 'OCR 서비스가 설정되지 않았습니다. 서버 관리자에게 문의하세요.' });
         }
 
-        console.log("📸 [OCR Request] Processing image...");
+        const mimeType = req.file.mimetype;
+        const isPDF = mimeType === 'application/pdf';
+
+        console.log(`📸 [OCR Request] Processing ${isPDF ? 'PDF' : 'image'}... (${mimeType})`);
+
+        // PDF는 현재 Gemini Vision에서 직접 지원되지 않음
+        if (isPDF) {
+            return res.status(400).json({
+                success: false,
+                error: 'PDF 파일은 현재 지원되지 않습니다. 📸 문서를 사진으로 찍어서 업로드해주세요.'
+            });
+        }
 
         const base64Image = req.file.buffer.toString('base64');
-        const mimeType = req.file.mimetype;
 
         const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash' });
 

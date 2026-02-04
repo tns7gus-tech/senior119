@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { Camera, Image, FolderOpen, Loader2, X, CheckCircle, AlertCircle, FileText } from 'lucide-react';
+import { Camera, Image, FolderOpen, Loader2, X, CheckCircle, AlertCircle } from 'lucide-react';
 
 /**
  * ImageUpload - AI 문서 스캐너 컴포넌트
@@ -24,11 +24,10 @@ const ImageUpload = ({ onResult, onError }) => {
         const file = event.target.files?.[0];
         if (!file) return;
 
-        // Validate file type (이미지 및 PDF 허용)
+        // Validate file type (이미지만 허용)
         const isImage = file.type.startsWith('image/');
-        const isPDF = file.type === 'application/pdf';
-        if (!isImage && !isPDF) {
-            setError('이미지 또는 PDF 파일만 업로드할 수 있습니다.');
+        if (!isImage) {
+            setError('📸 이미지 파일만 업로드할 수 있습니다. 문서를 사진으로 찍어주세요.');
             return;
         }
 
@@ -39,16 +38,11 @@ const ImageUpload = ({ onResult, onError }) => {
         }
 
         // Create preview
-        if (isImage) {
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                setPreview(e.target?.result);
-            };
-            reader.readAsDataURL(file);
-        } else {
-            // PDF 파일의 경우 아이콘 표시
-            setPreview('pdf');
-        }
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            setPreview(e.target?.result);
+        };
+        reader.readAsDataURL(file);
 
         // Reset states
         setError(null);
@@ -126,7 +120,7 @@ const ImageUpload = ({ onResult, onError }) => {
             <input
                 ref={fileInputRef}
                 type="file"
-                accept="image/*,.pdf,application/pdf"
+                accept="image/*"
                 onChange={handleFileSelect}
                 className="hidden"
             />
@@ -135,7 +129,7 @@ const ImageUpload = ({ onResult, onError }) => {
             {!preview && (
                 <div className="space-y-3">
                     <p className="text-center text-lg font-bold text-gray-800 mb-4">
-                        📄 사진/PDF로 자동 입력
+                        📄 사진으로 자동 입력
                     </p>
 
                     {/* 단일 버튼 - OS 기본 선택창 사용 */}
@@ -144,7 +138,7 @@ const ImageUpload = ({ onResult, onError }) => {
                         className="w-full p-5 bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white rounded-xl font-bold text-lg shadow-lg flex items-center justify-center gap-4 transition-all active:scale-98"
                     >
                         <Camera size={28} />
-                        📷 사진/파일 선택하기
+                        📷 사진 선택하기
                     </button>
 
                     <p className="text-center text-sm text-blue-600 font-medium mt-2">
@@ -156,19 +150,11 @@ const ImageUpload = ({ onResult, onError }) => {
             {/* Preview & Processing */}
             {preview && (
                 <div className="relative rounded-2xl overflow-hidden border-2 border-gray-200">
-                    {preview === 'pdf' ? (
-                        <div className="w-full h-48 bg-gray-100 flex flex-col items-center justify-center">
-                            <FileText size={64} className="text-red-500" />
-                            <p className="mt-2 text-lg font-bold text-gray-700">PDF 문서</p>
-                            <p className="text-sm text-gray-500">AI가 분석할 준비가 되었습니다</p>
-                        </div>
-                    ) : (
-                        <img
-                            src={preview}
-                            alt="업로드된 이미지"
-                            className="w-full max-h-64 object-contain bg-gray-100"
-                        />
-                    )}
+                    <img
+                        src={preview}
+                        alt="업로드된 이미지"
+                        className="w-full max-h-64 object-contain bg-gray-100"
+                    />
 
                     {/* Reset button */}
                     <button
