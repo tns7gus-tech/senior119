@@ -13,7 +13,7 @@ const ImageUpload = ({ onResult, onError }) => {
     const [preview, setPreview] = useState(null);
     const [result, setResult] = useState(null);
     const [error, setError] = useState(null);
-    const [showOptions, setShowOptions] = useState(false);
+    const [showOptions, setShowOptions] = useState(true); // 바로 드롭다운 표시
     const cameraInputRef = useRef(null);
     const galleryInputRef = useRef(null);
     const fileInputRef = useRef(null);
@@ -131,48 +131,21 @@ const ImageUpload = ({ onResult, onError }) => {
                 className="hidden"
             />
 
-            {/* 통합 버튼 + 드롭다운 옵션 */}
+            {/* 옵션 선택 UI - 단일 버튼으로 OS 기본 선택창 활용 */}
             {!preview && (
-                <div className="space-y-3 relative">
+                <div className="space-y-3">
                     <p className="text-center text-lg font-bold text-gray-800 mb-4">
                         📄 사진/PDF로 자동 입력
                     </p>
 
-                    {/* 통합 버튼 */}
+                    {/* 단일 버튼 - OS 기본 선택창 사용 */}
                     <button
-                        onClick={() => setShowOptions(!showOptions)}
+                        onClick={() => fileInputRef.current?.click()}
                         className="w-full p-5 bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white rounded-xl font-bold text-lg shadow-lg flex items-center justify-center gap-4 transition-all active:scale-98"
                     >
                         <Camera size={28} />
                         📷 사진/파일 선택하기
                     </button>
-
-                    {/* 드롭다운 옵션 메뉴 */}
-                    {showOptions && (
-                        <div className="absolute left-0 right-0 top-full mt-2 bg-white rounded-xl shadow-2xl border-2 border-gray-100 overflow-hidden z-50 animate-in fade-in slide-in-from-top-2">
-                            <button
-                                onClick={() => handleOptionClick('gallery')}
-                                className="w-full p-4 hover:bg-purple-50 text-gray-800 font-bold text-lg flex items-center gap-4 transition-colors border-b border-gray-100"
-                            >
-                                <Image size={24} className="text-purple-500" />
-                                🖼️ 사진보관함
-                            </button>
-                            <button
-                                onClick={() => handleOptionClick('camera')}
-                                className="w-full p-4 hover:bg-blue-50 text-gray-800 font-bold text-lg flex items-center gap-4 transition-colors border-b border-gray-100"
-                            >
-                                <Camera size={24} className="text-blue-500" />
-                                📸 사진 찍기
-                            </button>
-                            <button
-                                onClick={() => handleOptionClick('file')}
-                                className="w-full p-4 hover:bg-gray-50 text-gray-800 font-bold text-lg flex items-center gap-4 transition-colors"
-                            >
-                                <FolderOpen size={24} className="text-gray-500" />
-                                📁 파일 선택 (PDF 가능)
-                            </button>
-                        </div>
-                    )}
 
                     <p className="text-center text-sm text-blue-600 font-medium mt-2">
                         AI가 자동으로 날짜와 금액을 읽어옵니다
