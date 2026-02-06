@@ -9,6 +9,9 @@ require('dotenv').config();
 const app = express();
 const PORT = process.env.PORT || 3001;
 
+// Trust first proxy (Railway, Heroku, etc.) for accurate client IP
+app.set('trust proxy', 1);
+
 // ============ 보안 설정 ============
 
 // 1. Helmet - 보안 헤더 설정
@@ -27,8 +30,14 @@ const allowedOrigins = [
 
 app.use(cors({
     origin: (origin, callback) => {
-        // Allow requests with no origin (mobile apps, Postman, etc.)
-        if (!origin) return callback(null, true);
+        // 프로덕션에서는 origin 필수 (CSRF 방어 강화)
+        if (!origin) {
+            // 개발 환경에서만 origin 없는 요청 허용 (Postman, curl 테스트용)
+            if (process.env.NODE_ENV === 'production') {
+                return callback(new Error('Origin 헤더가 필요합니다.'), false);
+            }
+            return callback(null, true);
+        }
         if (allowedOrigins.includes(origin)) {
             return callback(null, true);
         }
